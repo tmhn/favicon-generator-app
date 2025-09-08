@@ -225,10 +225,21 @@ function drawIcon(
           Math.sign(Math.sin(t)) *
           Math.pow(Math.abs(Math.sin(t)), 2 / n) +
         h / 2;
-      if (i === 0) (path as any).moveTo(x, y);
-      else (path as any).lineTo(x, y);
+      // Path2D in TypeScript does not have moveTo/lineTo, but they exist at runtime.
+      // Use type assertion to Path2D & { moveTo: Function, lineTo: Function }
+      const p = path as Path2D & {
+        moveTo: (x: number, y: number) => void;
+        lineTo: (x: number, y: number) => void;
+      };
+      if (i === 0) p.moveTo(x, y);
+      else p.lineTo(x, y);
     }
-    (path as any).closePath?.();
+    if (
+      typeof (path as Path2D & { closePath?: () => void }).closePath ===
+      "function"
+    ) {
+      (path as Path2D & { closePath: () => void }).closePath();
+    }
   }
 
   // Glow
