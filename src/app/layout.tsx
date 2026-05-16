@@ -1,11 +1,25 @@
 import type { Metadata } from "next";
-import { Figtree } from "next/font/google";
+import { DM_Serif_Display, Syne, DM_Mono } from "next/font/google";
 import "./globals.css";
 
-const figtree = Figtree({
-  variable: "--font-figtree",
+const dmSerifDisplay = DM_Serif_Display({
+  variable: "--font-display",
   subsets: ["latin"],
-  weight: ["400", "600", "700"],
+  weight: ["400"],
+  display: "swap",
+});
+
+const syne = Syne({
+  variable: "--font-syne",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+const dmMono = DM_Mono({
+  variable: "--font-mono",
+  subsets: ["latin"],
+  weight: ["400", "500"],
   display: "swap",
 });
 
@@ -22,7 +36,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${figtree.variable} antialiased`}>{children}</body>
+      <body className={`${dmSerifDisplay.variable} ${syne.variable} ${dmMono.variable} antialiased`}>{children}</body>
     </html>
   );
 }
